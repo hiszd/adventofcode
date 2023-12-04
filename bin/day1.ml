@@ -27,15 +27,6 @@ let rec get_all_matches (i : int) (regexp : Str.regexp) (s : string) =
   | exception _ -> []
 ;;
 
-(* let print_list (l : int list) = *)
-(*   printf "["; *)
-(*   List.iteri l ~f:(fun i x -> *)
-(*     if i = List.length l - 1 *)
-(*     then printf "%d" x *)
-(*     else printf "%s" (Int.to_string x ^ ", ")); *)
-(*   printf "]\n" *)
-(* ;; *)
-
 let replace_matches (s : string) =
   let m =
     List.map matches ~f:(fun (k, v) ->
@@ -94,45 +85,3 @@ let () =
   in
   print_endline (Int.to_string total)
 ;;
-
-(* let find_matches (s : string list) : string list = *)
-(*   List.map s ~f:(fun ss -> replace_matches ss) *)
-(* ;; *)
-
-(* let lines = find_matches (Advent.read_lines "./inputs/01-test2.txt");; *)
-(***)
-(* let lines = Advent.read_lines "./inputs/01-test2.txt";; *)
-(***)
-(* List.iter lines ~f:(fun line -> print_endline line) *)
-(***)
-(* let rec find_all_digits (str : char list) : char list = *)
-(*   match str with *)
-(*   | [] -> [] *)
-(*   | first_char :: rest -> *)
-(*     if Char.is_digit first_char *)
-(*     then first_char :: find_all_digits rest *)
-(*     else find_all_digits rest *)
-(* ;; *)
-(***)
-(* let concat (c : string) : string = *)
-(*   let chars = String.to_list c in *)
-(*   if List.length chars > 1 *)
-(*   then ( *)
-(*     let first = List.nth chars 0 in *)
-(*     let second = List.nth chars (List.length chars - 1) in *)
-(*     String.of_char_list [ Option.value_exn first; Option.value_exn second ]) *)
-(*   else ( *)
-(*     let first = List.nth chars 0 in *)
-(*     let second = List.nth chars 0 in *)
-(*     String.of_char_list [ Option.value_exn first; Option.value_exn second ]) *)
-(* ;; *)
-(***)
-(* let bob = *)
-(*   List.map lines ~f:(fun line -> *)
-(*     let digits = find_all_digits (String.to_list line) in *)
-(*     Int.of_string (concat (String.of_char_list digits))) *)
-(* ;; *)
-(***)
-(* let final = List.fold bob ~init:0 ~f:(fun acc x -> acc + x);; *)
-(***)
-(* print_endline (Int.to_string final) *)
