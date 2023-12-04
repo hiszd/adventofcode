@@ -64,8 +64,10 @@ let replace_matches (s : string) =
     List.map m ~f:(fun (k, v) ->
       if List.length v > 0
       then (
-        let min = List.fold v ~init:0 ~f:(fun acc x -> min acc x) in
-        let _ = print_endline (Int.to_string min ^ ", " ^ k) in
+        let min =
+          List.fold v ~init:(-1) ~f:(fun acc x ->
+            if x < acc || (x >= 0 && acc = -1) then x else acc)
+        in
         k, min)
       else k, -1)
   in
@@ -75,7 +77,7 @@ let replace_matches (s : string) =
       ~init:(Option.value_exn (List.nth mins 0))
       ~f:(fun acc (k, v) ->
         let k1, v1 = acc in
-        if v < v1 then k, v else k1, v1)
+        if (v < v1 && v > -1) || v1 = -1 then k, v else k1, v1)
   in
   let kn, _ = mn in
   let first_num = num_word_to_num kn in
@@ -83,8 +85,14 @@ let replace_matches (s : string) =
 ;;
 
 let () =
-  let ms = replace_matches "onetwothree" in
-  print_endline ms
+  let lines = Advent.read_lines "./inputs/01-prod.txt" in
+  let total =
+    List.fold lines ~init:0 ~f:(fun acc line ->
+      let numstr = replace_matches line in
+      let num = Int.of_string numstr in
+      acc + num)
+  in
+  print_endline (Int.to_string total)
 ;;
 
 (* let find_matches (s : string list) : string list = *)
