@@ -12,10 +12,16 @@ let rec find_all_matches (i : int) (regexp : Str.regexp) (s : string) =
   | exception _ -> []
 ;;
 
-let get_all_matches (regexp : Str.regexp) (s : string) =
-  let x = Str.full_split regexp s in
-  List.fold ~init:[] x ~f:(fun acc y ->
-    match y with
-    | Str.Delim y -> y :: acc
-    | _ -> acc)
+let rec get_all_matches (regexp : Str.regexp) (s : string) =
+  let i =
+    try Str.search_forward regexp s 0 with
+    | Stdlib.Not_found -> -1
+    | Not_found_s _ -> -1
+  in
+  match i with
+  | -1 -> []
+  | x ->
+    let m = Str.matched_string s in
+    (m, x, String.length m)
+    :: get_all_matches regexp (Str.string_after s (x + 1))
 ;;
