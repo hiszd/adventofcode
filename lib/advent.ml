@@ -23,5 +23,5 @@ let rec get_all_matches (regexp : Str.regexp) (s : string) =
   | x ->
     let m = Str.matched_string s in
     (m, x, String.length m)
-    :: get_all_matches regexp (Str.string_after s (x + 1))
+    :: get_all_matches regexp (Str.string_after s (x + 1 + String.length m))
 ;;
