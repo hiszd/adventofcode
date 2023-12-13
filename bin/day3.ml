@@ -11,6 +11,23 @@ let get_syms (s : string) =
 let nums = List.map input ~f:(fun line -> get_nums line)
 let syms = List.map input ~f:(fun line -> get_syms line)
 
+let _ =
+  List.iteri syms ~f:(fun i x ->
+    printf " %s" (Int.to_string i ^ ": ");
+    List.iteri x ~f:(fun j (st, loc, len) ->
+      printf
+        " %s"
+        (Int.to_string j
+        ^ ": ("
+        ^ st
+        ^ ", "
+        ^ Int.to_string loc
+        ^ ", "
+        ^ Int.to_string len
+        ^ ")"));
+    printf "\n")
+;;
+
 let () =
   (* let total = List.fold input ~init:0 ~f:(fun acc line -> *)
   let _ =
@@ -28,7 +45,21 @@ let () =
               @ List.nth_exn syms acc
               @ List.nth_exn syms (acc + 1)
           in
-          let _ = print_endline (Int.to_string (List.length syms)) in
+          let _ =
+            printf
+              "%s"
+              ("line: "
+              ^ Int.to_string acc
+              ^ " len: "
+              ^ Int.to_string (List.length syms)
+              ^ " (")
+          in
+          let _ =
+            List.iteri syms ~f:(fun i x ->
+              let st, _, _ = x in
+              let len = List.length syms in
+              if i = len then printf "%s " st else printf "%s, " st)
+          in
           let nums =
             List.fold syms ~init:[] ~f:(fun acc (smst, smloc, _) ->
               let _ =
