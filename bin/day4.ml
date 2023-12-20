@@ -1,4 +1,4 @@
-let input = Advent.read_lines "./inputs/04-test.txt"
+let input = Advent.read_lines "./inputs/04-prod.txt"
 
 let () =
   let total =
@@ -30,20 +30,26 @@ let () =
         |> List.map (fun x -> Core.Int.of_string x)
       in
       let () =
-        Core.printf
-          "%s: [%s] [%s]\n"
-          ln
-          (Core.List.fold winning_numbers ~init:"" ~f:(fun acc x ->
-             let st = "'" ^ Core.Int.to_string x ^ "'" in
-             if acc = "" then st else acc ^ " " ^ st))
-          (Core.List.fold posessed_numbers ~init:"" ~f:(fun acc x ->
-             let st = "'" ^ Core.Int.to_string x ^ "'" in
-             if acc = "" then st else acc ^ " " ^ st))
+        Core.printf (* "%s: [%s] [%s]\n" *) "%s:" ln
+        (* (Core.List.fold winning_numbers ~init:"" ~f:(fun acc x -> *)
+        (*    let st = "'" ^ Core.Int.to_string x ^ "'" in *)
+        (*    if acc = "" then st else acc ^ " " ^ st)) *)
+        (* (Core.List.fold posessed_numbers ~init:"" ~f:(fun acc x -> *)
+        (*    let st = "'" ^ Core.Int.to_string x ^ "'" in *)
+        (*    if acc = "" then st else acc ^ " " ^ st)) *)
       in
-      Core.List.fold winning_numbers ~init:0 ~f:(fun acc x ->
-        let b = Core.List.mem posessed_numbers x ~equal:( = ) in
-        if b then if acc = 0 then 1 else acc * acc else acc)
-      |> ( + ) lacc)
+      let lintot =
+        Core.List.fold winning_numbers ~init:0 ~f:(fun acc x ->
+          let b = Core.List.mem posessed_numbers x ~equal:( = ) in
+          (* let _ = *)
+          (*   Core.printf *)
+          (*     "%s " *)
+          (*     (Core.Int.to_string x ^ " " ^ Core.Bool.to_string b) *)
+          (* in *)
+          if b && acc <> 0 then acc * 2 else if b && acc = 0 then 1 else acc)
+      in
+      let _ = Core.printf " %d\n" lintot in
+      lacc + lintot)
   in
   Core.printf "\ntotal: %d\n" total
 ;;
