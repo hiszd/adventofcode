@@ -36,12 +36,20 @@ let process_card_string (s : string) =
   { id = Core.Int.of_string ln; winning_numbers; posessed_numbers }
 ;;
 
-(* let () = *)
-(*   let cards = Core.List.map input ~f:(fun x -> process_card_string x) in *)
-(*   (* Map over the list of cards and go through the process of iterating over the numbers and multiplying them then adding them up *) *)
-(*   (* let total = Core.List.iter *) *)
-(*   () *)
-(* ;; *)
+let card_mult (card : card) =
+  Core.List.fold card.winning_numbers ~init:0 ~f:(fun acc x ->
+    if Core.List.mem card.posessed_numbers x ~equal:( = ) then
+      if acc = 0 then 1 else acc * 2
+      else acc
+  )
+;;
+
+let () =
+  let cards = Core.List.map input ~f:(fun x -> process_card_string x) in
+  (* Map over the list of cards and go through the process of iterating over the numbers and multiplying them then adding them up *)
+  let total = Core.List.map cards ~f:(fun x -> ) in
+  ()
+;;
 
 (* let () = *)
 (*   let total = *)
